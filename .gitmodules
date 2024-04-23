@@ -1,0 +1,3 @@
+[submodule "colorswitcher"]
+	path = colorswitcher
+	url = https://github.com/anastacodes/colorswitcher.git
