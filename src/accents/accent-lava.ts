@@ -6,7 +6,7 @@ import type { Theme } from '../palette-engine';
 gsap.registerPlugin(ScrollTrigger);
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const BLOBS = 10;
+const BLOBS = 20;
 const GOO_ID = 'lava-goo-filter';
 
 function ensureGooFilter(): void {
@@ -41,8 +41,8 @@ export function createLavaAccent(): HeroAccent {
 
       for (let i = 0; i < BLOBS; i++) {
         const blob = document.createElement('div');
-        const size = 14 + Math.random() * 16;                    // vh
-        const x = 46 + Math.random() * 46;                       // % ширины — правая зона
+        const size = 9 + Math.random() * 26;                     // vh: и пузырьки, и глыбы
+        const x = 44 + Math.random() * 50;                       // % ширины — правая зона
         const startY = Math.random() * 110 - 10;                 // % высоты
         blob.style.cssText = [
           'position:absolute', 'border-radius:50%',
