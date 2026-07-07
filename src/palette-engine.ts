@@ -39,3 +39,31 @@ export function deriveTheme(p: Palette): Theme {
   }
   return { palette: p, ink, paper, accent };
 }
+
+const HEX_PART = /^[0-9a-f]{6}$/;
+
+export function encodeHash(p: Palette): string {
+  return p.colors.map(c => c.slice(1)).join('-');
+}
+
+export function decodeHash(s: string): Palette | null {
+  const parts = s.replace(/^#?p=/, '').split('-');
+  if (parts.length !== 5 || !parts.every(x => HEX_PART.test(x))) return null;
+  return { colors: parts.map(x => `#${x}`) as Palette['colors'] };
+}
+
+export function applyTheme(t: Theme, root: HTMLElement = document.documentElement): void {
+  t.palette.colors.forEach((c, i) => root.style.setProperty(`--c${i + 1}`, c));
+  root.style.setProperty('--ink', t.ink);
+  root.style.setProperty('--paper', t.paper);
+  root.style.setProperty('--accent', t.accent);
+}
+
+let current: Theme | null = null;
+export function currentTheme(): Theme | null { return current; }
+
+export function setTheme(t: Theme): void {
+  current = t;
+  applyTheme(t);
+  window.dispatchEvent(new CustomEvent<Theme>('palette:change', { detail: t }));
+}
