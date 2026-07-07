@@ -23,10 +23,12 @@ export function createRibbonsAccent(): HeroAccent {
 
   // 6 волнистых границ; лента i — область между границами i и i+1.
   // Так все 5 лент видны всегда: без наездов и щелей.
+  // Амплитуда и длина волны — доли ВЫСОТЫ экрана: характер лент одинаково
+  // спокойный и вытянутый на любой ширине монитора.
   const boundaries: Boundary[] = Array.from({ length: 6 }, (_, j) => ({
     base: LEFT + (j * (RIGHT - LEFT)) / 5,
-    amp: 0.02 + Math.random() * 0.022, // доля ширины — не пересекаются с соседями
-    freq: 0.0011 + Math.random() * 0.0009,
+    amp: 0.02 + Math.random() * 0.018,   // ×H → 20–38px при высоте 1000
+    freq: 0.45 + Math.random() * 0.3,    // циклов волны на высоту экрана
     speed: 0.00022 + Math.random() * 0.00018,
     phase: Math.random() * Math.PI * 2,
   }));
@@ -40,9 +42,10 @@ export function createRibbonsAccent(): HeroAccent {
   }
 
   function edgeX(b: Boundary, y: number, t: number): number {
+    const ph = (y / H) * b.freq * 2 * Math.PI;
     return b.base * W +
-      (Math.sin(y * b.freq * 2 * Math.PI + b.phase + t * b.speed) +
-       0.45 * Math.sin(y * b.freq * 4.7 + b.phase * 1.7 + t * b.speed * 1.6)) * b.amp * W;
+      (Math.sin(ph + b.phase + t * b.speed) +
+       0.3 * Math.sin(ph * 2.15 + b.phase * 1.7 + t * b.speed * 1.6)) * b.amp * H;
   }
 
   function colors(): string[] {
