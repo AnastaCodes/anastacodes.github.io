@@ -50,7 +50,15 @@ async function boot(): Promise<void> {
   setTheme(deriveTheme(fromHash ?? generatePalette()));
   renderWork(document.querySelector('#work-list')!);
 
-  const host = document.querySelector<HTMLElement>('#accent-host')!;
+  const host = document.querySelector<HTMLElement>('#accent-host') ?? document.body;
+  if (config.accents.includes('lava')) {
+    const { createLavaAccent } = await import('./accents/accent-lava');
+    accents.push(mounted(createLavaAccent(), host));
+  }
+  if (config.accents.includes('ribbons')) {
+    const { createRibbonsAccent } = await import('./accents/accent-ribbons');
+    accents.push(mounted(createRibbonsAccent(), host));
+  }
   if (config.accents.includes('palette')) {
     const { createPaletteAccent } = await import('./accents/accent-palette');
     accents.push(mounted(createPaletteAccent(setLock), host));
