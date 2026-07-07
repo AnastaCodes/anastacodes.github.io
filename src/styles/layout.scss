@@ -2,20 +2,15 @@
 
 main > section { min-height: 60vh; padding: clamp(2rem, 6vw, 6rem); }
 
+main, footer { position: relative; z-index: 1; }
+
 #hero {
   min-height: 100svh;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  display: flex;
   align-items: center;
-  gap: 2rem;
-
-  @media (max-width: 720px) {
-    grid-template-columns: 1fr;
-    #accent-host { min-height: 30svh; }
-  }
 }
 
-#accent-host { align-self: stretch; display: flex; }
+.hero-copy { max-width: 34ch; }
 
 .hint {
   margin-top: 2rem;
