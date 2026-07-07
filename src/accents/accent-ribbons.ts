@@ -6,12 +6,14 @@ import type { Theme } from '../palette-engine';
 gsap.registerPlugin(ScrollTrigger);
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-interface Band {
-  base: number; width: number; amp: number;
+interface Boundary {
+  base: number; amp: number;
   freq: number; speed: number; phase: number;
 }
 
 const POINTS = 48;
+const LEFT = 0.44;   // где начинается цветная зона (доля ширины)
+const RIGHT = 1.06;  // последняя граница чуть за правым краем
 
 export function createRibbonsAccent(): HeroAccent {
   let canvas: HTMLCanvasElement;
@@ -19,10 +21,11 @@ export function createRibbonsAccent(): HeroAccent {
   let raf = 0;
   let W = 0, H = 0;
 
-  const bands: Band[] = Array.from({ length: 5 }, (_, i) => ({
-    base: 0.5 + i * 0.11,
-    width: 0.09 + Math.random() * 0.05,
-    amp: 40 + Math.random() * 55,
+  // 6 волнистых границ; лента i — область между границами i и i+1.
+  // Так все 5 лент видны всегда: без наездов и щелей.
+  const boundaries: Boundary[] = Array.from({ length: 6 }, (_, j) => ({
+    base: LEFT + (j * (RIGHT - LEFT)) / 5,
+    amp: 0.02 + Math.random() * 0.022, // доля ширины — не пересекаются с соседями
     freq: 0.0011 + Math.random() * 0.0009,
     speed: 0.00022 + Math.random() * 0.00018,
     phase: Math.random() * Math.PI * 2,
@@ -36,12 +39,10 @@ export function createRibbonsAccent(): HeroAccent {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function edge(b: Band, y: number, t: number, side: -1 | 1): number {
-    const wiggle =
-      Math.sin(y * b.freq * 2 * Math.PI + b.phase + t * b.speed) * b.amp +
-      Math.sin(y * b.freq * 4.7 + b.phase * 1.7 + t * b.speed * 1.6) * b.amp * 0.4;
-    const half = ((b.width * W) / 2) * (1 + 0.35 * Math.sin(t * b.speed * 1.3 + b.phase));
-    return b.base * W + wiggle + side * half;
+  function edgeX(b: Boundary, y: number, t: number): number {
+    return b.base * W +
+      (Math.sin(y * b.freq * 2 * Math.PI + b.phase + t * b.speed) +
+       0.45 * Math.sin(y * b.freq * 4.7 + b.phase * 1.7 + t * b.speed * 1.6)) * b.amp * W;
   }
 
   function colors(): string[] {
@@ -53,21 +54,22 @@ export function createRibbonsAccent(): HeroAccent {
     ctx.clearRect(0, 0, W, H);
     const cs = colors();
     const drift = scrollY * 0.35;
-    bands.forEach((b, i) => {
+    for (let i = 0; i < 5; i++) {
+      const left = boundaries[i], right = boundaries[i + 1];
       ctx.beginPath();
       for (let p = 0; p <= POINTS; p++) {
         const y = (H * p) / POINTS;
-        const x = edge(b, y + drift, t, -1);
+        const x = edgeX(left, y + drift, t);
         p ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
       }
       for (let p = POINTS; p >= 0; p--) {
         const y = (H * p) / POINTS;
-        ctx.lineTo(edge(b, y + drift, t, 1), y);
+        ctx.lineTo(edgeX(right, y + drift, t), y);
       }
       ctx.closePath();
       ctx.fillStyle = cs[i];
       ctx.fill();
-    });
+    }
   }
 
   return {
