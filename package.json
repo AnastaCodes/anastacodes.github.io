@@ -1,0 +1,26 @@
+{
+  "name": "anastacodes.github.io",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/chroma-js": "^3.1.2",
+    "@types/three": "^0.185.0",
+    "jsdom": "^29.1.1",
+    "sass": "^1.101.0",
+    "three": "^0.185.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "chroma-js": "^3.2.0",
+    "gsap": "^3.15.0"
+  }
+}
