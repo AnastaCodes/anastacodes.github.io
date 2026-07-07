@@ -1,3 +1,3 @@
 export const config = {
-  accents: ['palette'] as ('palette' | 'blob')[],
+  accents: ['palette', 'blob'] as ('palette' | 'blob')[],
 };
