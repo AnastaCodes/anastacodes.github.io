@@ -1,1 +1,1 @@
-console.debug('boot');
+import './styles/main.scss';
