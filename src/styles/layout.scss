@@ -1,0 +1,95 @@
+* { box-sizing: border-box; margin: 0; }
+
+main > section { min-height: 60vh; padding: clamp(2rem, 6vw, 6rem); }
+
+#hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+    #accent-host { min-height: 30svh; }
+  }
+}
+
+#accent-host { align-self: stretch; display: flex; }
+
+.hint {
+  margin-top: 2rem;
+  opacity: 0.7;
+
+  button {
+    font: inherit;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: inherit;
+    border-radius: 6px;
+    padding: 0.2em 0.8em;
+    cursor: pointer;
+  }
+  button:focus-visible { outline: 3px solid var(--accent); }
+}
+
+#pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  align-content: center;
+}
+
+#work-list {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+
+  li { border-bottom: 1px solid color-mix(in srgb, var(--ink) 15%, transparent); }
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.2rem 0.5rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.3s;
+
+    .t { font-family: var(--serif); font-style: italic; font-size: clamp(1.2rem, 3vw, 2rem); }
+    .d { font-size: 0.85rem; opacity: 0.65; text-align: right; }
+  }
+
+  a:hover,
+  a:focus-visible { background: color-mix(in srgb, var(--row-c, var(--c1)) 18%, transparent); }
+}
+
+.marquee {
+  overflow: hidden;
+  margin-top: 1.5rem;
+
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    width: max-content;
+    animation: slide 28s linear infinite;
+  }
+  &:hover .marquee-track { animation-play-state: paused; }
+}
+
+@keyframes slide { to { transform: translateX(-50%); } }
+
+#contact {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3rem, 8vw, 6rem);
+
+  a { color: var(--paper); font-size: 1.4rem; margin-right: 2rem; }
+  .colophon { margin-top: 2rem; opacity: 0.5; font-size: 0.85rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
