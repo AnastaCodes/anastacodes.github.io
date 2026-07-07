@@ -1,3 +1,4 @@
 export const config = {
-  accents: ['palette', 'blob'] as ('palette' | 'blob')[],
+  // 'blob' — готовый three.js-акцент, включается добавлением в массив (решение Анасты 07.07.2026: пока только палитра)
+  accents: ['palette'] as ('palette' | 'blob')[],
 };
