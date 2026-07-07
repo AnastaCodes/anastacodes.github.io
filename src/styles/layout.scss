@@ -10,7 +10,7 @@ main, footer { position: relative; z-index: 1; }
   align-items: center;
 }
 
-.hero-copy { max-width: 34ch; }
+.hero-copy { max-width: min(48rem, 92vw); }
 
 .hint {
   margin-top: 2rem;

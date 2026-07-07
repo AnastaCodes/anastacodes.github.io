@@ -76,7 +76,8 @@ export function createRibbonsAccent(): HeroAccent {
     mount(_el: HTMLElement) {
       canvas = document.createElement('canvas');
       canvas.setAttribute('aria-hidden', 'true');
-      canvas.style.cssText = 'position:fixed;inset:0;z-index:0;pointer-events:none;';
+      // canvas — replaced-элемент: inset:0 не растягивает его, нужны явные width/height
+      canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;';
       canvas.style.maskImage = 'linear-gradient(to bottom, black 55%, transparent 100%)';
       canvas.style.webkitMaskImage = 'linear-gradient(to bottom, black 55%, transparent 100%)';
       ctx = canvas.getContext('2d')!;
