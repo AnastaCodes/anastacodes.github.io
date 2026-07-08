@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1000);
+const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+console.log('horizontal overflow px:', over);
+await page.evaluate(() => document.querySelector('#curtain').scrollIntoView());
+await page.waitForTimeout(800);
+await page.screenshot({ path: 'mobile-curtain.png' });
+await browser.close();

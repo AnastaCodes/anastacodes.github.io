@@ -2,6 +2,8 @@
 
 :root { --pad: clamp(2rem, 6vw, 6rem); }
 
+body { overflow-x: clip; } // страховка: контент никогда не распирает страницу вбок
+
 main > section { min-height: 60vh; padding: var(--pad); }
 
 main, footer { position: relative; z-index: 1; }
@@ -104,8 +106,16 @@ main, footer { position: relative; z-index: 1; }
 
     .g { display: flex; align-items: baseline; gap: 1rem; min-width: 0; }
     .num { font-family: var(--serif); font-style: italic; font-size: 0.95rem; opacity: 0.45; flex: none; }
-    .t { font-family: var(--serif); font-style: italic; font-size: clamp(1.2rem, 3vw, 2rem); }
+    .t { font-family: var(--serif); font-style: italic; font-size: clamp(1.2rem, 3vw, 2rem); overflow-wrap: anywhere; }
     .d { font-size: 0.85rem; opacity: 0.65; text-align: right; }
+
+    // на узких экранах описание — под названием, а не рядом
+    @media (max-width: 40rem) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+      .d { text-align: left; }
+    }
   }
 
   a:hover,
@@ -120,7 +130,9 @@ main, footer { position: relative; z-index: 1; }
   > p {
     font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     line-height: 1.55;
-    white-space: nowrap;
+
+    // в одну строку — только где она реально помещается
+    @media (min-width: 64rem) { white-space: nowrap; }
   }
 }
 
