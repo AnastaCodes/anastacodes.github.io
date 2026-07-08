@@ -1,6 +1,8 @@
 * { box-sizing: border-box; margin: 0; }
 
-main > section { min-height: 60vh; padding: clamp(2rem, 6vw, 6rem); }
+:root { --pad: clamp(2rem, 6vw, 6rem); }
+
+main > section { min-height: 60vh; padding: var(--pad); }
 
 main, footer { position: relative; z-index: 1; }
 
@@ -112,6 +114,8 @@ main, footer { position: relative; z-index: 1; }
 
 #curtain {
   background: color-mix(in srgb, var(--c2) 9%, var(--paper));
+  min-height: auto;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 
   > p {
     max-width: 42rem;
@@ -123,6 +127,11 @@ main, footer { position: relative; z-index: 1; }
 .marquee {
   overflow: hidden;
   margin-top: 1.5rem;
+  // на всю ширину: строка бежит до самого правого края,
+  // слева — растворение в ноль
+  margin-inline: calc(var(--pad) * -1);
+  mask-image: linear-gradient(to right, transparent 0, black 16%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 16%);
 
   .marquee-track {
     display: flex;
