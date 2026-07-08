@@ -21,8 +21,12 @@ function ensureGooFilter(): void {
   document.body.append(svg);
 }
 
+// Зерно: крошечный SVG-тайл с feTurbulence, повторяется как фон
+const GRAIN_TILE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")`;
+
 export function createLavaAccent(): HeroAccent {
   let layer: HTMLElement;
+  let grain: HTMLElement;
   const tweens: gsap.core.Tween[] = [];
 
   return {
@@ -34,10 +38,18 @@ export function createLavaAccent(): HeroAccent {
         'position:fixed', 'inset:0', 'width:100%', 'height:100%',
         'z-index:0', 'pointer-events:none', 'overflow:hidden',
         `filter:url(#${GOO_ID})`,
-        '-webkit-mask-image:linear-gradient(to bottom, black 55%, transparent 100%)',
-        'mask-image:linear-gradient(to bottom, black 55%, transparent 100%)',
       ].join(';');
       document.body.prepend(layer);
+
+      grain = document.createElement('div');
+      grain.setAttribute('aria-hidden', 'true');
+      grain.style.cssText = [
+        'position:fixed', 'inset:0', 'width:100%', 'height:100%',
+        'z-index:0', 'pointer-events:none',
+        'mix-blend-mode:overlay', 'opacity:0.42',
+        `background-image:${GRAIN_TILE}`, 'background-size:220px 220px',
+      ].join(';');
+      layer.after(grain);
 
       for (let i = 0; i < BLOBS; i++) {
         const blob = document.createElement('div');
@@ -76,13 +88,19 @@ export function createLavaAccent(): HeroAccent {
           opacity: 0.07, ease: 'none',
           scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true },
         });
+        gsap.fromTo(grain, { opacity: 0.6 }, {
+          opacity: 0.15, ease: 'none',
+          scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true },
+        });
       } else {
         layer.style.opacity = '0.55';
+        grain.style.opacity = '0.4';
       }
     },
     onPalette(_t: Theme) { /* капли красятся через var(--cN) — переход палитры бесплатно */ },
     destroy() {
       tweens.forEach(t => t.kill());
+      grain.remove();
       layer.remove();
     },
   };
