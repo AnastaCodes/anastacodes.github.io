@@ -118,20 +118,20 @@ main, footer { position: relative; z-index: 1; }
   padding-block: clamp(2.5rem, 5vw, 4rem);
 
   > p {
-    max-width: 42rem;
     font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     line-height: 1.55;
+    white-space: nowrap;
   }
 }
 
 .marquee {
   overflow: hidden;
   margin-top: 1.5rem;
-  // на всю ширину: строка бежит до самого правого края,
-  // слева — растворение в ноль
+  // на всю ширину: строка бежит до самого правого края; слева растворение
+  // в ноль ровно к началу текста абзаца выше (= var(--pad))
   margin-inline: calc(var(--pad) * -1);
-  mask-image: linear-gradient(to right, transparent 0, black 16%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0, black 16%);
+  mask-image: linear-gradient(to right, transparent 0, black var(--pad));
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black var(--pad));
 
   .marquee-track {
     display: flex;
