@@ -51,6 +51,16 @@ async function boot(): Promise<void> {
   renderWork(document.querySelector('#work-list')!);
 
   const host = document.querySelector<HTMLElement>('#accent-host') ?? document.body;
+  if (config.accents.includes('lava-gl')) {
+    try {
+      const { createLavaGlAccent } = await import('./accents/accent-lava-gl');
+      accents.push(mounted(createLavaGlAccent(), host));
+    } catch {
+      // WebGL недоступен — SVG-goo версия
+      const { createLavaAccent } = await import('./accents/accent-lava');
+      accents.push(mounted(createLavaAccent(), host));
+    }
+  }
   if (config.accents.includes('lava')) {
     const { createLavaAccent } = await import('./accents/accent-lava');
     accents.push(mounted(createLavaAccent(), host));
