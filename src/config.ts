@@ -1,6 +1,7 @@
-export type AccentName = 'lava' | 'ribbons' | 'palette' | 'blob';
+export type AccentName = 'lava-gl' | 'lava' | 'ribbons' | 'palette' | 'blob';
 
 export const config = {
-  // 'ribbons' (ленты), 'palette' (панели с локами), 'blob' (three.js) — готовые альтернативы
-  accents: ['lava'] as AccentName[],
+  // 'lava-gl' — WebGL-шейдер (все браузеры, вкл. iOS Safari; фолбэк на 'lava');
+  // 'lava' — SVG-goo; 'ribbons', 'palette', 'blob' — прочие альтернативы
+  accents: ['lava-gl'] as AccentName[],
 };
