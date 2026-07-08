@@ -11,6 +11,6 @@ const WORKS: WorkItem[] = [
 export function renderWork(list: HTMLElement): void {
   list.innerHTML = WORKS.map((w, i) => `
     <li><a href="${w.href}" style="--row-c: var(--c${(i % 5) + 1})">
-      <span class="t">${w.title}</span><span class="d">${w.desc}</span>
+      <span class="g"><span class="num">0${i + 1}</span><span class="t">${w.title}</span></span><span class="d">${w.desc}</span>
     </a></li>`).join('');
 }

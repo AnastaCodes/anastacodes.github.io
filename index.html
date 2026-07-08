@@ -21,19 +21,30 @@
           <p class="hint">
             press <button id="shuffle" aria-label="Generate a new color palette"><kbd>space</kbd></button> to repaint
           </p>
+          <div class="chips">
+            <button class="chip" data-var="--c1" title="click to copy hex" aria-label="Copy color 1 hex"></button>
+            <button class="chip" data-var="--c2" title="click to copy hex" aria-label="Copy color 2 hex"></button>
+            <button class="chip" data-var="--c3" title="click to copy hex" aria-label="Copy color 3 hex"></button>
+            <button class="chip" data-var="--c4" title="click to copy hex" aria-label="Copy color 4 hex"></button>
+            <button class="chip" data-var="--c5" title="click to copy hex" aria-label="Copy color 5 hex"></button>
+            <span id="chip-msg" aria-live="polite"></span>
+          </div>
         </div>
       </section>
 
       <section id="pillars">
         <div class="pillar" data-reveal>
+          <div class="pillar-head" aria-hidden="true"><span class="bar"></span><span class="num">01</span></div>
           <h2>TYPO3 × AI</h2>
           <p>Agent skills that teach Claude to build TYPO3 sites — schema-first writes, safe workflows, real production rules.</p>
         </div>
         <div class="pillar" data-reveal>
+          <div class="pillar-head" aria-hidden="true"><span class="bar"></span><span class="num">02</span></div>
           <h2>Automation</h2>
           <p>n8n pipelines and MCP servers: leads to CRM, AI content into the CMS, reports that send themselves.</p>
         </div>
         <div class="pillar" data-reveal>
+          <div class="pillar-head" aria-hidden="true"><span class="bar"></span><span class="num">03</span></div>
           <h2>Craft</h2>
           <p>Six years of client sites at a German agency: 16 TYPO3 extensions with test suites, 40+ launches, accessibility-minded.</p>
         </div>
@@ -59,6 +70,7 @@
         <a href="https://www.linkedin.com/in/anasta-goncharova/">LinkedIn</a>
         <a href="https://github.com/AnastaCodes">GitHub</a>
       </nav>
+      <div class="dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
       <p class="colophon">Built with GSAP, chroma-js &amp; Claude.</p>
     </footer>
     <script type="module" src="/src/main.ts"></script>

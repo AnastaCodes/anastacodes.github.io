@@ -69,6 +69,19 @@ async function boot(): Promise<void> {
   }
 
   document.querySelector('#shuffle')!.addEventListener('click', shuffle);
+
+  const chipMsg = document.querySelector<HTMLElement>('#chip-msg')!;
+  let chipTimer = 0;
+  document.querySelectorAll<HTMLButtonElement>('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const hex = getComputedStyle(document.documentElement)
+        .getPropertyValue(chip.dataset.var!).trim();
+      navigator.clipboard?.writeText(hex);
+      chipMsg.textContent = `${hex} copied`;
+      clearTimeout(chipTimer);
+      chipTimer = window.setTimeout(() => { chipMsg.textContent = ''; }, 1600);
+    });
+  });
   window.addEventListener('keydown', e => {
     if (e.code === 'Space' && !(e.target instanceof HTMLButtonElement)) { e.preventDefault(); shuffle(); }
   });
